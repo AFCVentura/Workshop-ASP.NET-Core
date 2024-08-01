@@ -1,11 +1,20 @@
-﻿@model IEnumerable<workshop_asp_net_core_mvc.Models.Department>
+﻿@* O atalho para comentar é CTRL + K + C e para descomentar é CTRL + K + U *@
+@* Basta lembrar que o C é de Comment e o U é de Uncomment *@
 
+@* Essa linha tá definindo que o model que será utilizado na página é um IEnumerable de Departments *@
+@model IEnumerable<workshop_asp_net_core_mvc.Models.Department>
+
+@* Esse bloco C# está definindo com <ViewData["Title"] ="Departments" ;> *@
+@* que o dicionário ViewData na posição cuja chave é "Title", terá valor "Departments" nessa página, *@
+@* isso basicamente quer dizer que o título da página será Departments *@
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Departments";
 }
 
-<h1>Index</h1>
+<h1>Departments</h1>
 
+@* Esse asp-action="Create" é um tag-helper, ele está definindo que essa tag <a> é um link para 
+    o método Create desse mesmo Controller*@
 <p>
     <a asp-action="Create">Create New</a>
 </p>
@@ -13,6 +22,8 @@
     <thead>
         <tr>
             <th>
+                @* Esse método coleta o nome do atributo, 
+                ele foi montado sozinho pois selecionei previamente qual model seria usado nessa view*@
                 @Html.DisplayNameFor(model => model.Id)
             </th>
             <th>
@@ -22,9 +33,13 @@
         </tr>
     </thead>
     <tbody>
+@* Esse foreach percorre todos os itens que estão naquela coleção IEnumerable chamada na primeira linha *@
 @foreach (var item in Model) {
         <tr>
             <td>
+                @* Esse método exibe o valor do atributo passado, foi usado o valor da variável do foreach *@
+                @* É criada uma expressão lambda que pega o id do item e coloca 
+                num parâmetro que o Razor chamou de modelItem *@
                 @Html.DisplayFor(modelItem => item.Id)
             </td>
             <td>
