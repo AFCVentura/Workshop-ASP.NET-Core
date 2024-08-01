@@ -1,4 +1,4 @@
-namespace workshop_asp_net_core_mvc.Models
+namespace workshop_asp_net_core_mvc.Models.ViewModels
 {
     public class ErrorViewModel
     {
