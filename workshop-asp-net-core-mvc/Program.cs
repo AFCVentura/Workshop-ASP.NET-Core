@@ -1,3 +1,6 @@
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection;
+using workshop_asp_net_core_mvc.Data;
 namespace workshop_asp_net_core_mvc
 {
     public class Program
@@ -5,6 +8,13 @@ namespace workshop_asp_net_core_mvc
         public static void Main(string[] args)
         {
             var builder = WebApplication.CreateBuilder(args);
+            builder.Services.AddDbContext<SalesWebMvcContext>(options =>
+                options.UseMySql(builder
+                .Configuration
+                .GetConnectionString("SalesWebMvcContext"),
+                ServerVersion.AutoDetect(builder
+                .Configuration
+                .GetConnectionString("SalesWebMvcContext"))));
 
             // Add services to the container.
             builder.Services.AddControllersWithViews();
