@@ -1,6 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using workshop_asp_net_core_mvc.Data;
+using workshop_asp_net_core_mvc.Services;
 namespace workshop_asp_net_core_mvc
 {
     public class Program
@@ -22,6 +23,7 @@ namespace workshop_asp_net_core_mvc
             builder.Services.AddControllersWithViews();
 
             builder.Services.AddScoped<SeedingService>();
+            builder.Services.AddScoped<SellerService>();
 
             var app = builder.Build();
 
