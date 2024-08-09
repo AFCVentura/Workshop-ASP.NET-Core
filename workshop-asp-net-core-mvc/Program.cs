@@ -24,6 +24,7 @@ namespace workshop_asp_net_core_mvc
 
             builder.Services.AddScoped<SeedingService>();
             builder.Services.AddScoped<SellerService>();
+            builder.Services.AddScoped<DepartmentService>();
 
             var app = builder.Build();
 
