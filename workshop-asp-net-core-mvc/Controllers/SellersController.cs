@@ -122,7 +122,6 @@ namespace workshop_asp_net_core_mvc.Controllers
             {
                 return RedirectToAction(nameof(Error), new { message =  ex.Message});
             }
-            
         }
 
         // GET: Seller/Error

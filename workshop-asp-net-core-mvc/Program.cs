@@ -1,5 +1,7 @@
+using Microsoft.AspNetCore.Localization;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
+using System.Globalization;
 using workshop_asp_net_core_mvc.Data;
 using workshop_asp_net_core_mvc.Services;
 namespace workshop_asp_net_core_mvc
@@ -28,6 +30,16 @@ namespace workshop_asp_net_core_mvc
 
             var app = builder.Build();
 
+
+            var enUS = new CultureInfo("en-US");
+            var localizationOption = new RequestLocalizationOptions
+            {
+                DefaultRequestCulture = new RequestCulture(enUS),
+                SupportedCultures = new List<CultureInfo> { enUS },
+                SupportedUICultures = new List<CultureInfo> { enUS }
+            };
+
+            app.UseRequestLocalization(localizationOption);
 
             // Configure the HTTP request pipeline.
             if (!app.Environment.IsDevelopment())

@@ -1,12 +1,23 @@
-﻿namespace workshop_asp_net_core_mvc.Models
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace workshop_asp_net_core_mvc.Models
 {
     public class Seller
     {
         /* Basic attributes */
         public int Id { get; set; }
-        public string Name { get; set; }    
+        public string Name { get; set; }
+        [DataType(DataType.EmailAddress)]
         public string Email { get; set; }
+
+        [Display(Name = "Birth Date")]
+        [DataType(DataType.Date)]
+        // [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy}")] To change date format
         public DateTime BirthDate { get; set; }
+
+        [Display(Name = "Base Salary")]
+        [DataType(DataType.Currency)]
+        [DisplayFormat(DataFormatString = "{0:F2}")]
         public double BaseSalary { get; set; }
         /* 1 Department */
         public Department Department { get; set; }
