@@ -56,6 +56,15 @@ namespace workshop_asp_net_core_mvc.Controllers
             return View(obj);
         }
 
+        // POST: Sellers/Delete/x
+        [HttpDelete]
+        [ValidateAntiForgeryToken]
+        public IActionResult Delete(int id)
+        {
+            _sellerService.Remove(id);
+            return RedirectToAction(nameof(Index));
+        }
+
         // GET: Sellers/Details/x
         public IActionResult Details(int? id)
         {

@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using workshop_asp_net_core_mvc.Data;
 using workshop_asp_net_core_mvc.Models;
+using workshop_asp_net_core_mvc.Services.Exceptions;
 
 namespace workshop_asp_net_core_mvc.Services
 {
@@ -35,6 +36,23 @@ namespace workshop_asp_net_core_mvc.Services
         {            
             _context.Add(obj);
             _context.SaveChanges();
+        }
+
+        public void Update(Seller obj) 
+        {
+            if (!_context.Seller.Any(x => x.Id == obj.Id))
+            {
+                throw new NotFoundException("Id not found");
+            }
+            try
+            {
+                _context.Update(obj);
+                _context.SaveChanges();
+            }
+            catch (DbUpdateConcurrencyException ex) 
+            {
+                throw new DbConcurrencyException(ex.Message);
+            }
         }
     }
 }
