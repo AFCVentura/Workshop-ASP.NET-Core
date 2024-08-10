@@ -20,7 +20,7 @@ namespace workshop_asp_net_core_mvc.Controllers
         public IActionResult Index()
         {
             return View(_sellerService.FindAll());
-        } 
+        }
 
         // GET: Sellers/Create
         public IActionResult Create()
@@ -40,8 +40,24 @@ namespace workshop_asp_net_core_mvc.Controllers
             return RedirectToAction(nameof(Index));
         }
 
-        // GET: Sellers/Delete
+        // GET: Sellers/Delete/x
         public IActionResult Delete(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+            var obj = _sellerService.FindById(id.Value);
+            if (obj == null)
+            {
+                return NotFound();
+            }
+
+            return View(obj);
+        }
+
+        // GET: Sellers/Details/x
+        public IActionResult Details(int? id)
         {
             if (id == null)
             {

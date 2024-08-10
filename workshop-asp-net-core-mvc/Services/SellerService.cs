@@ -1,4 +1,5 @@
-﻿using workshop_asp_net_core_mvc.Data;
+﻿using Microsoft.EntityFrameworkCore;
+using workshop_asp_net_core_mvc.Data;
 using workshop_asp_net_core_mvc.Models;
 
 namespace workshop_asp_net_core_mvc.Services
@@ -14,13 +15,13 @@ namespace workshop_asp_net_core_mvc.Services
 
         public List<Seller> FindAll()
         {
-            return _context.Seller.ToList();
+            return _context.Seller.Include(obj => obj.Department).ToList();
 
         }
 
         public Seller FindById(int id)
         {
-            return _context.Seller.FirstOrDefault(obj => obj.Id == id);
+            return _context.Seller.Include(obj => obj.Department).FirstOrDefault(obj => obj.Id == id);
         }
 
         public void Remove(int id)
