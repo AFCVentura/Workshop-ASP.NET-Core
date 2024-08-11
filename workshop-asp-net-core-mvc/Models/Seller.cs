@@ -6,8 +6,12 @@ namespace workshop_asp_net_core_mvc.Models
     {
         /* Basic attributes */
         public int Id { get; set; }
+
+        [Required(ErrorMessage = "{0} required")]
+        [StringLength(60, MinimumLength = 3, ErrorMessage = "{0} size shoud be between {2} and {1} characters")]
         public string Name { get; set; }
-        [DataType(DataType.EmailAddress)]
+
+        [EmailAddress(ErrorMessage = "Enter a valid email")]
         public string Email { get; set; }
 
         [Display(Name = "Birth Date")]
@@ -21,6 +25,7 @@ namespace workshop_asp_net_core_mvc.Models
         public double BaseSalary { get; set; }
         /* 1 Department */
         public Department Department { get; set; }
+        [Display(Name = "Department")]
         public int DepartmentId { get; set; }
         /* n Sales */
         public ICollection<SalesRecord> Sales { get; set; } = new List<SalesRecord>();

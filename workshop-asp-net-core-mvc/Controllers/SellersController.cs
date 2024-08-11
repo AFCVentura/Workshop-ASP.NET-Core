@@ -37,6 +37,16 @@ namespace workshop_asp_net_core_mvc.Controllers
         [ValidateAntiForgeryToken]
         public IActionResult Create(Seller seller)
         {
+            if (!ModelState.IsValid)
+            {
+                var departments = _departmentService.FindAll();
+                var viewModel = new SellerFormViewModel
+                {
+                    Departments = departments,
+                    Seller = seller
+                };
+                return View(viewModel);
+            }
             _sellerService.Insert(seller);
             //return RedirectToAction("Index"); or
             return RedirectToAction(nameof(Index));
@@ -109,6 +119,16 @@ namespace workshop_asp_net_core_mvc.Controllers
         [ValidateAntiForgeryToken]
         public IActionResult Edit(int id, Seller seller)
         {
+            if (!ModelState.IsValid)
+            {
+                var departments = _departmentService.FindAll();
+                var viewModel = new SellerFormViewModel
+                {
+                    Departments = departments,
+                    Seller = seller
+                };
+                return View(viewModel);
+            }
             if (id != seller.Id)
             {
                 return RedirectToAction(nameof(Error), new { message = "Id mismatch" });
