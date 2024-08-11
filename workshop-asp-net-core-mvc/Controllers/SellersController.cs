@@ -19,15 +19,15 @@ namespace workshop_asp_net_core_mvc.Controllers
         }
 
         // GET: Sellers
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
-            return View(_sellerService.FindAll());
+            return View(await _sellerService.FindAllAsync());
         }
 
         // GET: Sellers/Create
-        public IActionResult Create()
+        public async Task<IActionResult> Create()
         {
-            var departments = _departmentService.FindAll();
+            var departments = await _departmentService.FindAllAsync();
             var viewModel = new SellerFormViewModel { Departments = departments };
             return View(viewModel);
         }
@@ -35,11 +35,11 @@ namespace workshop_asp_net_core_mvc.Controllers
         // POST: Sellers/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Create(Seller seller)
+        public async Task<IActionResult> Create(Seller seller)
         {
             if (!ModelState.IsValid)
             {
-                var departments = _departmentService.FindAll();
+                var departments = await _departmentService.FindAllAsync();
                 var viewModel = new SellerFormViewModel
                 {
                     Departments = departments,
@@ -47,19 +47,19 @@ namespace workshop_asp_net_core_mvc.Controllers
                 };
                 return View(viewModel);
             }
-            _sellerService.Insert(seller);
+            await _sellerService.InsertAsync(seller);
             //return RedirectToAction("Index"); or
             return RedirectToAction(nameof(Index));
         }
 
         // GET: Sellers/Delete/x
-        public IActionResult Delete(int? id)
+        public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
             {
                 return RedirectToAction(nameof(Error), new { message = "Id not provided"});
             }
-            var obj = _sellerService.FindById(id.Value);
+            var obj = await _sellerService.FindByIdAsync(id.Value);
             if (obj == null)
             {
                 return RedirectToAction(nameof(Error), new { message = "Id not found" });
@@ -71,20 +71,27 @@ namespace workshop_asp_net_core_mvc.Controllers
         // POST: Sellers/Delete/x
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Delete(int id)
+        public async Task<IActionResult> Delete(int id)
         {
-            _sellerService.Remove(id);
-            return RedirectToAction(nameof(Index));
+            try
+            {
+                await _sellerService.RemoveAsync(id);
+                return RedirectToAction(nameof(Index));
+            }
+            catch (IntegrityException ex)
+            {
+                return RedirectToAction(nameof(Error), new {message = ex.Message});
+            }
         }
 
         // GET: Sellers/Details/x
-        public IActionResult Details(int? id)
+        public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
             {
                 return RedirectToAction(nameof(Error), new { message = "Id not provided" });
             }
-            var obj = _sellerService.FindById(id.Value);
+            var obj = await _sellerService.FindByIdAsync(id.Value);
             if (obj == null)
             {
                 return RedirectToAction(nameof(Error), new { message = "Id not found" });
@@ -94,18 +101,18 @@ namespace workshop_asp_net_core_mvc.Controllers
         }
 
         // GET: Sellers/Edit/x
-        public IActionResult Edit(int? id)
+        public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
             {
                 return RedirectToAction(nameof(Error), new { message = "Id not provided" });
             }
-            var obj = _sellerService.FindById(id.Value);
+            var obj = await _sellerService.FindByIdAsync(id.Value);
             if (obj == null)
             {
                 return RedirectToAction(nameof(Error), new { message = "Id not found" });
             }
-            var departments = _departmentService.FindAll();
+            var departments = await _departmentService.FindAllAsync();
             var viewModel = new SellerFormViewModel
             {
                 Seller = obj,
@@ -117,11 +124,11 @@ namespace workshop_asp_net_core_mvc.Controllers
         //POST: Sellers/Edit/x
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Edit(int id, Seller seller)
+        public async Task<IActionResult> Edit(int id, Seller seller)
         {
             if (!ModelState.IsValid)
             {
-                var departments = _departmentService.FindAll();
+                var departments = await _departmentService.FindAllAsync();
                 var viewModel = new SellerFormViewModel
                 {
                     Departments = departments,
@@ -135,7 +142,7 @@ namespace workshop_asp_net_core_mvc.Controllers
             }
             try
             {
-                _sellerService.Update(seller);
+                await _sellerService.UpdateAsync(seller);
                 return RedirectToAction(nameof(Index));
             }
             catch (ApplicationException ex)
